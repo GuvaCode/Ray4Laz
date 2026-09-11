@@ -8,7 +8,7 @@ unit ray4laz;
 interface
 
 uses
-  raylib, raymath, rlgl, reasings, raygizmo, raygui, rcamera;
+  raylib, raymath, rlgl, rcamera, reasings, raygizmo, raygui;
 
 implementation
 

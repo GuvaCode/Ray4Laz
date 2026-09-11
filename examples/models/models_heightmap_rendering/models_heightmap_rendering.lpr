@@ -49,8 +49,8 @@ begin
         DrawGrid(20, 1.0);
       EndMode3D();
 
-      DrawTexture(texture, screenWidth - texture.width - 20, 20, WHITE);
-      DrawRectangleLines(screenWidth - texture.width - 20, 20, texture.width, texture.height, GREEN);
+     DrawTexture(texture, screenWidth - texture.width - 20, 20, WHITE);
+     DrawRectangleLines(screenWidth - texture.width - 20, 20, texture.width, texture.height, GREEN);
 
       DrawFPS(10, 10);
     EndDrawing();

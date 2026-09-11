@@ -9,6 +9,7 @@ const
   screenWidth = 800;
   screenHeight = 450;
 var
+  RenderTexture: TRenderTexture;
   LogoPositionX: Integer;
   LogoPositionY: Integer;
   FramesCounter: Integer;
@@ -39,7 +40,7 @@ begin
 
   State := 0; // Tracking animation states (State Machine)
   Alpha := 1.0; // Useful for fading
-
+  is_fullscreen: Boolean = False;
 
   SetTargetFPS(60);// Set our game to run at 60 frames-per-second
   //--------------------------------------------------------------------------------------

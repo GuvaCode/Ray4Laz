@@ -1,11 +1,10 @@
 {********************************************************************************************
 *                                                                                           *
-*    5.0 - dev (2026)                                                                             *
+*    5.0 - dev (2026)                                                                       *
 *                                                                                           *
 *   DESCRIPTION:                                                                            *
 *                                                                                           *
-*   raygui is a tools-dev-
-ed immediate-mode-gui library based on raylib but also       *
+*   raygui is a tools-dev-focused immediate-mode-gui library based on raylib but also       *
 *   available as a standalone library, as long as input and drawing functions are provided. *
 *                                                                                           *
 *   Pascal header 2021 - 2026 by Gunko Vadim                                                *
@@ -65,6 +64,19 @@ const
   RAYGUI_TEXTSPLIT_MAX_ITEMS = 128;
   RAYGUI_TEXTSPLIT_MAX_TEXT_SIZE = 1024;
   RAYGUI_TEXTFORMAT_MAX_SIZE = 256;
+
+  // Icons configuration
+  RAYGUI_ICON_SIZE = 16;                      // Size of icons in pixels (squared)
+  RAYGUI_ICON_MAX_ICONS = 512;                // Maximum number of icons
+  RAYGUI_ICON_MAX_FONT_BACKED = 257;          // Maximum number of icons to back in font atlas
+  RAYGUI_ICON_MAX_NAME_LENGTH = 32;           // Maximum length of icon name id
+  RAYGUI_ICON_DATA_ELEMENTS = RAYGUI_ICON_SIZE * RAYGUI_ICON_SIZE div 32; // 8 int per 16x16 icon
+  RAYGUI_ICON_FONT_ATLAS_PADDING = 1;         // Padding between backed icons in font atlas
+
+  // Style data array configuration
+  RAYGUI_MAX_CONTROLS = 16;                   // Maximum number of controls
+  RAYGUI_MAX_PROPS_BASE = 16;                 // Maximum number of base properties
+  RAYGUI_MAX_PROPS_EXTENDED = 8;              // Maximum number of extended properties
 
 //----------------------------------------------------------------------------------
 // Icons enumeration
@@ -392,7 +404,7 @@ const
   // Default -> populates to all controls when set
   DEFAULT = 0;
   // Basic controls
-  LABEL_= 1;          // Used also for: LABELBUTTON
+  LABEL_ = 1;         // Used also for: LABELBUTTON
   BUTTON = 2;
   TOGGLE = 3;         // Used also for: TOGGLEGROUP
   SLIDER = 4;         // Used also for: SLIDERBAR, TOGGLESLIDER
@@ -567,13 +579,24 @@ const
   HUEBAR_SELECTOR_HEIGHT = 19;      // ColorPicker right hue bar selector height
   HUEBAR_SELECTOR_OVERFLOW = 20;    // ColorPicker right hue bar selector overflow
 
+// Gui control property style color element
+type
+  PGuiPropertyElement = ^TGuiPropertyElement;
+  TGuiPropertyElement = Integer;
+
+const
+  BORDER = 0;
+  BASE = 1;
+  TEXT = 2;
+  OTHER = 3;
+
 // Style property
 type
   PGuiStyleProp = ^TGuiStyleProp;
   TGuiStyleProp = record
-    controlId: Word;      // Control identifier
-    propertyId: Word;     // Property identifier
-    propertyValue: Integer; // Property value
+    controlId: Word;         // Control identifier
+    propertyId: Word;        // Property identifier
+    propertyValue: Integer;  // Property value
   end;
 
 //----------------------------------------------------------------------------------
@@ -614,7 +637,7 @@ function GuiIconText(iconId: Integer; const text: PAnsiChar): PAnsiChar; cdecl; 
 
 {$IFNDEF RAYGUI_NO_ICONS}
 procedure GuiSetIconScale(scale: Integer); cdecl; external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'GuiSetIconScale';
-function GuiGetIcons: Pointer; cdecl; external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'GuiGetIcons';
+function GuiGetIcons: PUInt32; cdecl; external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'GuiGetIcons';
 function GuiLoadIcons(const fileName: PAnsiChar; loadIconsName: Boolean): PPAnsiChar; cdecl; external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'GuiLoadIcons';
 function GuiLoadIconsFromMemory(const fileData: PByte; dataSize: Integer; loadIconsName: Boolean): PPAnsiChar; cdecl; external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'GuiLoadIconsFromMemory';
 procedure GuiDrawIcon(iconId, posX, posY, pixelSize: Integer; color: TColorB); cdecl; external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'GuiDrawIcon';

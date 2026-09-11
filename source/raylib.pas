@@ -1247,6 +1247,8 @@ function FileExists(const fileName: PAnsiChar): Boolean; cdecl; external {$IFNDE
 function DirectoryExists(const dirPath: PAnsiChar): Boolean; cdecl; external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'DirectoryExists';
 {Check file extension (recommended include point: .png, .wav)}
 function IsFileExtension(const fileName, ext: PAnsiChar): Boolean; cdecl; external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'IsFileExtension';
+{Check if file path (file or directory) is hidden by OS}
+function IsFileHidden(const filePath: PAnsiChar): Boolean; cdecl; external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'IsFileHidden';
 {Get file length in bytes (NOTE: GetFileSize() conflicts with windows.h)}
 function GetFileLength(const fileName: PAnsiChar): Integer; cdecl; external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'GetFileLength';
 {Get file modification time (last write time)}
@@ -1496,6 +1498,8 @@ procedure DrawTriangle(v1, v2, v3: TVector2; color: TColorB); cdecl; external {$
 procedure DrawTriangleGradient(v1, v2, v3: TVector2; c1, c2, c3: TColorB); cdecl; external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'DrawTriangleGradient';
 {Draw triangle outline (vertex in counter-clockwise order!)}
 procedure DrawTriangleLines(v1, v2, v3: TVector2; color: TColorB); cdecl; external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'DrawTriangleLines';
+{Draw triangle outline with line thickness, counter-clockwise vertex order}
+procedure DrawTriangleLinesEx(v1, v2, v3: TVector2; thick: Single; color: TColorB); cdecl; external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'DrawTriangleLinesEx';
 {Draw a triangle fan defined by points (first vertex is the center)}
 procedure DrawTriangleFan(const points: PVector2; pointCount: Integer; color: TColorB); cdecl; external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'DrawTriangleFan';
 {Draw a triangle strip defined by points}
@@ -1539,7 +1543,9 @@ procedure DrawCircleGradient(center: TVector2; radius: Single; inner, outer: TCo
 {Draw a piece of a circle}
 procedure DrawCircleSector(center: TVector2; radius, startAngle, endAngle: Single; segments: Integer; color: TColorB); cdecl; external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'DrawCircleSector';
 {Draw circle sector outline}
-procedure DrawCircleSectorLines(center: TVector2; radius, startAngle, endAngle: Single; segments: Integer; color: TColorB);cdecl;external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'DrawCircleSectorLines';
+procedure DrawCircleSectorLines(center: TVector2; radius, startAngle, endAngle: Single; segments: Integer; color: TColorB); cdecl;external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'DrawCircleSectorLines';
+{Draw circle sector outline with thickness}
+procedure DrawCircleSectorLinesEx(center: TVector2; radius, startAngle, endAngle: Single; segments: Integer; thick: Single; color: TColorB); cdecl;external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'DrawCircleSectorLinesEx';
 {Draw circle outline}
 procedure DrawCircleLines(centerX, centerY: Integer; radius: Single; color: TColorB); cdecl; external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'DrawCircleLines';
 {Draw circle outline (Vector version)}
@@ -1554,10 +1560,14 @@ procedure DrawEllipseV(center: TVector2; radiusH, radiusV: Single; color: TColor
 procedure DrawEllipseLines(centerX, centerY: Integer; radiusH, radiusV: Single; color: TColorB); cdecl; external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'DrawEllipseLines';
 {Draw ellipse outline (Vector version)}
 procedure DrawEllipseLinesV(center: TVector2; radiusH, radiusV: Single; color: TColorB); cdecl; external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'DrawEllipseLinesV';
+{Draw ellipse outline with line thickness}
+procedure DrawEllipseLinesEx(center: TVector2; radiusH, radiusV, thick: Single; color: TColorB); cdecl; external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'DrawEllipseLinesEx';
 {Draw ring}
 procedure DrawRing(center: TVector2; innerRadius, outerRadius, startAngle, endAngle: Single; segments: Integer; color: TColorB); cdecl; external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'DrawRing';
 {Draw ring outline}
 procedure DrawRingLines(center: TVector2; innerRadius, outerRadius, startAngle, endAngle: Single; segments: Integer; color: TColorB); cdecl; external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'DrawRingLines';
+{Draw ring outline with line thickness}
+procedure DrawRingLinesEx(center: TVector2; innerRadius, outerRadius, startAngle, endAngle: Single; segments: Integer; thick: Single; color: TColorB); cdecl; external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'DrawRingLinesEx';
 
 (* Splines drawing functions *)
 
@@ -1820,6 +1830,8 @@ function LoadTextureFromImage(image: TImage): TTexture2D; cdecl; external {$IFND
 function LoadTextureCubemap(image: TImage; layout: TCubemapLayout): TTextureCubemap; cdecl; external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'LoadTextureCubemap';
 {Load texture for rendering (framebuffer)}
 function LoadRenderTexture(width, height: Integer): TRenderTexture2D; cdecl; external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'LoadRenderTexture';
+{Load texture for rendering (framebuffer), with specific format}
+function LoadRenderTextureEx(width, height, format: Integer): TRenderTexture2D; cdecl; external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'LoadRenderTextureEx';
 {Check if a texture is valid (loaded in GPU)}
 function IsTextureValid(texture: TTexture2D): Boolean; cdecl; external {$IFNDEF RAY_STATIC}cDllName{$ENDIF} name 'IsTextureValid';
 {Unload texture from GPU memory (VRAM)}
